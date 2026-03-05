@@ -47,39 +47,41 @@
   let modelCanvasEl = $state<HTMLDivElement>();
   let fileInputEl = $state<HTMLInputElement>();
 
-  // ─── Derived: compute layout rect whenever dims/canvas change ──────────────
+  // Track canvas size as reactive state so $derived can depend on it
+  let canvasWidth = $state(0);
+  let canvasHeight = $state(0);
 
-  let modelLayout = $derived.by(() => {
-    if (!modelCanvasEl || !model.modelShotDims) return null;
-    const rect = getImageLayoutRect(
-      modelCanvasEl.clientWidth,
-      modelCanvasEl.clientHeight,
-      model.modelShotDims.width,
-      model.modelShotDims.height,
-    );
-    // Also sync to the UI store so other components can use it
-    if (rect) ui.modelLayout = rect;
-    return rect;
-  });
-
-  // ─── Resize Observer to trigger layout recalculation ───────────────────────
+  // ─── Resize Observer: keep canvasWidth/canvasHeight in sync ────────────────
 
   $effect(() => {
     if (!modelCanvasEl) return;
-    const observer = new ResizeObserver(() => {
-      // Force reactivity by reading dims - the derived will recalculate
-      if (model.modelShotDims) {
-        const rect = getImageLayoutRect(
-          modelCanvasEl!.clientWidth,
-          modelCanvasEl!.clientHeight,
-          model.modelShotDims.width,
-          model.modelShotDims.height,
-        );
-        if (rect) ui.modelLayout = rect;
-      }
+    // Set initial size
+    canvasWidth = modelCanvasEl.clientWidth;
+    canvasHeight = modelCanvasEl.clientHeight;
+    const observer = new ResizeObserver(([entry]) => {
+      canvasWidth = entry.contentRect.width;
+      canvasHeight = entry.contentRect.height;
     });
     observer.observe(modelCanvasEl);
     return () => observer.disconnect();
+  });
+
+  // ─── Derived: pure computation, no side effects ─────────────────────────────
+
+  let modelLayout = $derived.by(() => {
+    if (!modelCanvasEl || !model.modelShotDims || canvasWidth <= 0) return null;
+    return getImageLayoutRect(
+      canvasWidth,
+      canvasHeight,
+      model.modelShotDims.width,
+      model.modelShotDims.height,
+    );
+  });
+
+  // ─── Sync modelLayout → UI store (side effect belongs in $effect) ──────────
+
+  $effect(() => {
+    ui.modelLayout = modelLayout;
   });
 
   // ─── Helpers ────────────────────────────────────────────────────────────────

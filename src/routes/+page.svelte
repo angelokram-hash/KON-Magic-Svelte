@@ -26,9 +26,9 @@
   function handleCropComplete(croppedUrl: string) {
     const target = ui.croppingTarget;
     if (target === 'ModelShot' && model.modelShot) {
-      model.updateModelShot({ imageUrl: croppedUrl });
+      model.updateModelShot({ url: croppedUrl });
     } else if (target === 'ProductShot' && products.productShot) {
-      products.updateProductShot({ imageUrl: croppedUrl });
+      products.updateProductShot({ url: croppedUrl });
     }
     ui.setCroppingTarget(null);
   }
@@ -39,8 +39,8 @@
 
   // Get the image URL for the crop target
   function getCropImageUrl(): string | null {
-    if (ui.croppingTarget === 'ModelShot') return model.modelShot?.imageUrl ?? null;
-    if (ui.croppingTarget === 'ProductShot') return products.productShot?.imageUrl ?? null;
+    if (ui.croppingTarget === 'ModelShot') return model.modelShot?.url ?? null;
+    if (ui.croppingTarget === 'ProductShot') return products.productShot?.url ?? null;
     return null;
   }
 </script>
