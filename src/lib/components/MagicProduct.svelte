@@ -53,38 +53,36 @@
   let showFormSelect = $state(false);
   let pendingFormCallback = $state<((form: PicForm) => void) | null>(null);
 
-  // ── Derived: product layout for anchor overlay ───────────────────────────────
+  // ── Reactive canvas size (ResizeObserver → $state) ────────────────────────────
+  let productCanvasWidth = $state(0);
+  let productCanvasHeight = $state(0);
+
+  $effect(() => {
+    if (!canvasEl) return;
+    productCanvasWidth = canvasEl.clientWidth;
+    productCanvasHeight = canvasEl.clientHeight;
+    const observer = new ResizeObserver(([entry]) => {
+      productCanvasWidth = entry.contentRect.width;
+      productCanvasHeight = entry.contentRect.height;
+    });
+    observer.observe(canvasEl);
+    return () => observer.disconnect();
+  });
+
+  // ── Derived: product layout for anchor overlay (pure — no side effects) ───────
   let productLayout = $derived.by(() => {
-    if (!canvasEl || !products.productShotDims) return null;
+    if (!canvasEl || !products.productShotDims || productCanvasWidth <= 0) return null;
     return getImageLayoutRect(
-      canvasEl.clientWidth,
-      canvasEl.clientHeight,
+      productCanvasWidth,
+      productCanvasHeight,
       products.productShotDims.width,
       products.productShotDims.height
     );
   });
 
-  // Keep ui.productLayout in sync
+  // ── Sync productLayout → UI store (side effect belongs in $effect) ─────────
   $effect(() => {
     ui.productLayout = productLayout;
-  });
-
-  // ── Recalculate layout on window resize ──────────────────────────────────────
-  $effect(() => {
-    if (!canvasEl) return;
-    const update = () => {
-      // Trigger reactivity by reading dims again
-      if (canvasEl && products.productShotDims) {
-        ui.productLayout = getImageLayoutRect(
-          canvasEl.clientWidth,
-          canvasEl.clientHeight,
-          products.productShotDims.width,
-          products.productShotDims.height
-        );
-      }
-    };
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
   });
 
   // ── History helpers ──────────────────────────────────────────────────────────

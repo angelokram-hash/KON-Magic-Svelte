@@ -19,10 +19,25 @@
     confirmLabel = 'OK', cancelLabel = 'Cancel', extraLabel,
     confirmStyle = 'bg-indigo-600 hover:bg-indigo-500', extraStyle = 'bg-amber-600 hover:bg-amber-500'
   }: Props = $props();
+
+  function handleBackdrop() {
+    if (onCancel) onCancel();
+    else onConfirm();
+  }
 </script>
 
-<div class="fixed inset-0 z-[200] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4">
-  <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 shadow-2xl max-w-md w-full overflow-hidden">
+<svelte:window onkeydown={(e) => { if (e.key === 'Escape') handleBackdrop(); }} />
+
+<div
+  class="fixed inset-0 z-[200] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4"
+  onclick={handleBackdrop}
+  role="presentation"
+>
+  <div
+    class="bg-slate-900 rounded-[2.5rem] border border-slate-800 shadow-2xl max-w-md w-full overflow-hidden"
+    onclick={(e) => e.stopPropagation()}
+    role="presentation"
+  >
     <!-- Icon + Message -->
     <div class="p-8 text-center">
       <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">

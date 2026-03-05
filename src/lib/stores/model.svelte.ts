@@ -40,7 +40,17 @@ function setModelShot(shot: ModelImageState | null) {
 
 function updateModelShot(partial: Partial<ModelImageState>) {
   if (!modelShot) return;
+  const urlChanged = partial.url !== undefined && partial.url !== modelShot.url;
   modelShot = { ...modelShot, ...partial } as ModelImageState;
+  if (urlChanged) {
+    // URL hat sich geändert (z.B. nach Crop / AI BG-Remove) → alle Anchors sind ungültig
+    modelShot.modelAnchorEarC      = null;
+    modelShot.modelAnchorRingC     = null;
+    modelShot.modelAnchorNecklaceL = null;
+    modelShot.modelAnchorNecklaceR = null;
+    modelShot.modelAnchorBraceletL = null;
+    modelShot.modelAnchorBraceletR = null;
+  }
   isModelDirty = true;
 }
 

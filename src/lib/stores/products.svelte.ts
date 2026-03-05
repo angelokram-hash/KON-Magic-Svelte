@@ -33,7 +33,14 @@ function setProductShot(shot: ProductImageState | null) {
 
 function updateProductShot(partial: Partial<ProductImageState>) {
   if (!productShot) return;
+  const urlChanged = partial.url !== undefined && partial.url !== productShot.url;
   productShot = { ...productShot, ...partial } as ProductImageState;
+  if (urlChanged) {
+    // URL hat sich geändert (z.B. nach Crop / AI BG-Remove) → Anchors sind ungültig
+    productShot.productAnchorC = null;
+    productShot.productAnchorL = null;
+    productShot.productAnchorR = null;
+  }
   isProductDirty = true;
 }
 

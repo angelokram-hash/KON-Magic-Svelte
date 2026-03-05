@@ -25,8 +25,18 @@
   };
 </script>
 
-<div class="fixed inset-0 z-[200] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4">
-  <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 shadow-2xl max-w-lg w-full overflow-hidden">
+<svelte:window onkeydown={(e) => { if (e.key === 'Escape') onCancel(); }} />
+
+<div
+  class="fixed inset-0 z-[200] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-4"
+  onclick={onCancel}
+  role="presentation"
+>
+  <div
+    class="bg-slate-900 rounded-[2.5rem] border border-slate-800 shadow-2xl max-w-lg w-full overflow-hidden"
+    onclick={(e) => e.stopPropagation()}
+    role="presentation"
+  >
     <!-- Header -->
     <div class="p-6 border-b border-slate-800 flex justify-between items-center">
       <div>

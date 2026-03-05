@@ -53,6 +53,8 @@ let batchConfirmPending = $state(false);
 
 function setWorkflow(wf: AppWorkflow) {
   currentWorkflow = wf;
+  formSelectModal = null;  // defensiv: alle Modals schließen beim Tab-Wechsel
+  validationModal = null;
 }
 
 function showHelp(target: string | null = null) {

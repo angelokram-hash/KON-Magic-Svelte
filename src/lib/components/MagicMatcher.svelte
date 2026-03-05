@@ -774,7 +774,9 @@
         <div class="space-y-1.5">
           {#each products.multiProducts as prod, idx}
             {@const isHidden = matcher.multiHidden[idx] ?? false}
-            {@const hasAnchor = prod.productAnchorC !== null || prod.productAnchorL !== null || prod.productAnchorR !== null}
+            {@const hasAnchor = (prod.picForm === 'Necklace' || prod.picForm === 'Bracelet')
+              ? (prod.productAnchorL !== null && prod.productAnchorR !== null)
+              : prod.productAnchorC !== null}
             {@const hasHeight = prod.picX > 0}
             {@const isComplete = hasAnchor && (prod.picForm === 'Necklace' || prod.picForm === 'Bracelet' ? hasAnchor : hasHeight && hasAnchor)}
 
