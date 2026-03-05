@@ -1,1 +1,169 @@
 @import 'tailwindcss';
+
+/* ─── iOS Dark Theme Variables ────────────────────────────────────────────── */
+
+:root {
+  --ios-blue: #007AFF;
+  --ios-green: #34C759;
+  --ios-bg: #000000;
+  --ios-material: rgba(28, 28, 30, 0.75);
+  --ios-border: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Base Body ───────────────────────────────────────────────────────────── */
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--ios-bg);
+  color: #ffffff;
+  margin: 0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ─── iOS Material (glassmorphism panels) ─────────────────────────────────── */
+
+.ios-material {
+  background: var(--ios-material);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 0.5px solid var(--ios-border);
+}
+
+/* ─── iOS Settings Row ────────────────────────────────────────────────────── */
+
+.ios-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.2s;
+}
+.ios-row:last-child {
+  border-bottom: none;
+}
+.ios-row:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Segmented Control ───────────────────────────────────────────────────── */
+
+.ios-segmented {
+  background: rgba(118, 118, 128, 0.24);
+  border-radius: 9px;
+  padding: 2px;
+  display: flex;
+  gap: 2px;
+}
+.ios-segmented-item {
+  flex: 1;
+  padding: 6px 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 7px;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+.ios-segmented-item.active {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  color: white;
+}
+
+/* ─── iOS Range Slider ────────────────────────────────────────────────────── */
+
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+  height: 32px;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -11px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  border: 0.5px solid rgba(0,0,0,0.04);
+}
+
+/* Firefox range slider */
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  border: none;
+}
+input[type=range]::-moz-range-thumb {
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* ─── Workspace Stage Background ──────────────────────────────────────────── */
+
+.workspace-stage {
+  background: radial-gradient(circle at center, #1c1c1e 0%, #000000 100%);
+}
+
+/* ─── Hidden Scrollbar ────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+/* ─── Glow Shadow Utility ─────────────────────────────────────────────────── */
+
+.shadow-glow {
+  box-shadow: 0 0 12px 2px rgba(99, 102, 241, 0.4), 0 0 4px 1px rgba(99, 102, 241, 0.2);
+}
+
+/* ─── Pulse Animation ─────────────────────────────────────────────────────── */
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 16px 4px rgba(99, 102, 241, 0.6); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ─── Processing Spinner ──────────────────────────────────────────────────── */
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+/* ─── Smooth Transitions for Tab Content ──────────────────────────────────── */
+
+.tab-transition-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.tab-transition-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
