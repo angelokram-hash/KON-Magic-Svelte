@@ -252,11 +252,11 @@
   // ── Set anchor at click position ─────────────────────────────────────────────
   function setAnchorAtClick(e: MouseEvent) {
     const shot = products.productShot;
-    if (!shot || !canvasEl || !products.productShotDims) return;
+    if (!shot || !canvasEl || !products.productShotDims || productCanvasWidth <= 0) return;
 
     const layout = getImageLayoutRect(
-      canvasEl.clientWidth,
-      canvasEl.clientHeight,
+      productCanvasWidth,   // reactive $state — always up-to-date
+      productCanvasHeight,
       products.productShotDims.width,
       products.productShotDims.height
     );

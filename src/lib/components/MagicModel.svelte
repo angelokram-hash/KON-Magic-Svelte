@@ -202,11 +202,11 @@
   function setAnchorAtClick(e: MouseEvent) {
     const container = modelCanvasEl;
     const dims = model.modelShotDims;
-    if (!container || !dims) return;
+    if (!container || !dims || canvasWidth <= 0) return;
 
     const layout = getImageLayoutRect(
-      container.clientWidth,
-      container.clientHeight,
+      canvasWidth,    // reactive $state — always up-to-date
+      canvasHeight,
       dims.width,
       dims.height,
     );

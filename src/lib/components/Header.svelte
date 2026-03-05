@@ -20,7 +20,7 @@
   ];
 </script>
 
-<header class="h-14 sm:h-20 lg:h-24 flex items-center justify-between px-3 sm:px-6 lg:px-12 fixed top-0 w-full z-50 pointer-events-none">
+<header class="h-14 sm:h-20 lg:h-24 flex items-center justify-between px-3 sm:px-6 lg:px-12 fixed top-0 w-full z-[300] pointer-events-none">
   <!-- Logo -->
   <div class="flex items-center gap-2 sm:gap-4 pointer-events-auto flex-shrink-0">
     <div class="w-8 h-8 sm:w-11 sm:h-11 lg:w-12 lg:h-12 bg-indigo-600 rounded-[0.875rem] sm:rounded-[1.25rem] flex items-center justify-center shadow-2xl shadow-indigo-600/20">

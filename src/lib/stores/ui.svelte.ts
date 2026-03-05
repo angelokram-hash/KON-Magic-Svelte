@@ -53,8 +53,9 @@ let batchConfirmPending = $state(false);
 
 function setWorkflow(wf: AppWorkflow) {
   currentWorkflow = wf;
-  formSelectModal = null;  // defensiv: alle Modals schließen beim Tab-Wechsel
+  formSelectModal = null;   // defensiv: alle Modals schließen beim Tab-Wechsel
   validationModal = null;
+  croppingTarget = null;    // Crop-Dialog abbrechen beim Tab-Wechsel
 }
 
 function showHelp(target: string | null = null) {
