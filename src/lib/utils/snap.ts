@@ -226,6 +226,7 @@ export function autoCropTransparent(url: string): Promise<string> {
       outCtx.drawImage(canvas, left, top, cropW, cropH, 0, 0, cropW, cropH);
       resolve(out.toDataURL('image/png'));
     };
+    img.onerror = () => resolve(url);  // Fallback: Original-URL zurückgeben
     img.src = url;
   });
 }
@@ -263,8 +264,8 @@ export function makeWhiteTransparent(url: string): Promise<string> {
     img.crossOrigin = "anonymous";
     img.onload = () => {
       const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = img.naturalWidth;   // naturalWidth: volle Pixel-Auflösung (nicht CSS-Größe)
+      canvas.height = img.naturalHeight;
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
       if (!ctx) { resolve(url); return; }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -279,6 +280,7 @@ export function makeWhiteTransparent(url: string): Promise<string> {
       ctx.putImageData(imageData, 0, 0);
       resolve(canvas.toDataURL('image/png'));
     };
+    img.onerror = () => resolve(url);  // Fallback: Original-URL zurückgeben
     img.src = url;
   });
 }

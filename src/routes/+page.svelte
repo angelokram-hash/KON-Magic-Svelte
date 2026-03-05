@@ -80,7 +80,7 @@
 {#if ui.croppingTarget && getCropImageUrl()}
   <ImageCropper
     imageUrl={getCropImageUrl()!}
-    onComplete={handleCropComplete}
+    onCrop={handleCropComplete}
     onCancel={handleCropCancel}
   />
 {/if}
